@@ -33,20 +33,12 @@
 </head>
 <body>
   <form action="/verify" method="POST">
-    <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response" />
-    
+    <!-- Turnstile widget automatically appends cf-turnstile-response input -->
     <div class="cf-turnstile"
-         data-sitekey="0x4AAAAAAB0PUX7tDDBASF7E"
-         data-callback="onCaptchaSuccess">
+         data-sitekey="0x4AAAAAAB0PUX7tDDBASF7E">
     </div>
 
     <button type="submit">Continue</button>
   </form>
-
-  <script>
-    function onCaptchaSuccess(token) {
-      document.getElementById('cf-turnstile-response').value = token;
-    }
-  </script>
 </body>
 </html>
