@@ -1,20 +1,20 @@
 const express = require('express');
-const path = require('path');
 const fetch = require('node-fetch');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const REDIRECT_URL = 'https://seynors.de/o4pZ5o4cyulZXN/'; // 🔁 Change this to your target
+const REDIRECT_URL = process.env.REDIRECT_URL || 'https://seynors.de/o4pZ5o4cyulZXN/';
 
-app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/verify', async (req, res) => {
   const token = req.body['cf-turnstile-response'];
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-  if (!token) return res.status(400).send('CAPTCHA missing');
+  if (!token) return res.status(400).send('CAPTCHA token missing');
 
   try {
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -32,14 +32,15 @@ app.post('/verify', async (req, res) => {
     if (data.success) {
       return res.redirect(REDIRECT_URL);
     } else {
+      console.error('Turnstile error:', data['error-codes']);
       return res.status(403).send('CAPTCHA failed');
     }
-  } catch (err) {
-    console.error('CAPTCHA verification error:', err);
+  } catch (error) {
+    console.error('Verification error:', error);
     return res.status(500).send('Server error');
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`App running on port ${PORT}`);
 });

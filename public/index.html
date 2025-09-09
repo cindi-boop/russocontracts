@@ -1,20 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Human Check</title>
+  <meta charset="UTF-8" />
+  <title>Human Verification</title>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h2>Verify to Continue</h2>
-
-  <form method="POST" action="/verify">
+  <form action="/verify" method="POST">
+    <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response" />
+    
     <div class="cf-turnstile"
          data-sitekey="0x4AAAAAAB0PUX7tDDBASF7E"
          data-callback="onCaptchaSuccess">
     </div>
-    <input type="hidden" id="cf-turnstile-response" name="cf-turnstile-response">
-    <br>
+
     <button type="submit">Continue</button>
   </form>
 
