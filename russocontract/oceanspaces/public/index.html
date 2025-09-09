@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Human Check</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <h2>Verify to Continue</h2>
+
+  <form method="POST" action="/verify">
+    <div class="cf-turnstile"
+         data-sitekey="0x4AAAAAAB0PUX7tDDBASF7E"
+         data-callback="onCaptchaSuccess">
+    </div>
+    <input type="hidden" id="cf-turnstile-response" name="cf-turnstile-response">
+    <br>
+    <button type="submit">Continue</button>
+  </form>
+
+  <script>
+    function onCaptchaSuccess(token) {
+      document.getElementById('cf-turnstile-response').value = token;
+    }
+  </script>
+</body>
+</html>
